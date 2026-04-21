@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - Stylfit PT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #f97316 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-primary {
+            @apply px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer inline-block;
+        }
+
+        .card-hover {
+            @apply bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 border border-slate-700 hover:border-orange-500 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/20 transform hover:-translate-y-2;
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-slideInLeft {
+            animation: slideInLeft 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-slideInRight {
+            animation: slideInRight 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 bg-gradient-to-b from-slate-900/95 to-slate-900/50 backdrop-blur-md border-b border-slate-700/50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="text-2xl font-bold gradient-text">Stylfit PT</a>
+                
+                <div id="desktop-menu" class="hidden md:flex gap-8">
+                    <a href="index.html" class="hover:text-orange-500 transition-colors duration-300">Home</a>
+                    <a href="about.html" class="hover:text-orange-500 transition-colors duration-300">Sobre Nós</a>
+                    <a href="index.html#contact" class="hover:text-orange-500 transition-colors duration-300">Contacto</a>
+                </div>
+
+                <button class="hidden md:block btn-primary">Começar Projeto</button>
+
+                <button id="menu-btn" class="md:hidden">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+
+            <div id="mobile-menu" class="md:hidden hidden pb-4 space-y-2">
+                <a href="index.html" class="block py-2 hover:text-orange-500 transition-colors">Home</a>
+                <a href="about.html" class="block py-2 hover:text-orange-500 transition-colors">Sobre Nós</a>
+                <a href="index.html#contact" class="block py-2 hover:text-orange-500 transition-colors">Contacto</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="w-full min-h-screen">
+        <!-- Hero Section -->
+        <section class="pt-40 pb-20 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center bg-gradient-to-b from-slate-900/50 to-transparent">
+            <div class="max-w-7xl mx-auto w-full">
+                <div class="text-center mb-12 animate-fadeInUp" style="animation-delay: 0s;">
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6 gradient-text">Sobre Nós</h1>
+                    <p class="text-xl md:text-2xl text-slate-300 max-w-2xl mx-auto">Conheça a história por trás da Stylfit PT</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-16">
+                    <!-- Left Column - Text -->
+                    <div class="animate-slideInLeft" style="animation-delay: 0.1s;">
+                        <h2 class="text-4xl font-bold mb-6 text-white">Quem Somos?</h2>
+                        <p class="text-slate-300 mb-4 text-lg leading-relaxed">
+                            A Stylfit PT é uma empresa especializada em desenvolvimento web, programação e design digital. 
+                            Somos apaixonados por transformar ideias em soluções digitais de qualidade profissional.
+                        </p>
+                        <p class="text-slate-300 mb-4 text-lg leading-relaxed">
+                            Com foco em inovação e excelência, criamos websites modernos, aplicações customizadas 
+                            e soluções de programação que elevam o seu negócio para o próximo nível.
+                        </p>
+                        <p class="text-slate-300 text-lg leading-relaxed">
+                            Cada projeto é desenvolvido com atenção aos detalhes, garantindo que o resultado final 
+                            não só atenda às expectativas, mas as supere.
+                        </p>
+                    </div>
+
+                    <!-- Right Column - Visual -->
+                    <div class="animate-slideInRight card-hover p-8" style="animation-delay: 0.2s;">
+                        <div class="text-center">
+                            <div class="text-8xl mb-6">🚀</div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Começou com uma Visão</h3>
+                            <p class="text-slate-400">
+                                Stylfit PT nasceu da vontade de criar soluções digitais de qualidade, 
+                                inovadoras e acessíveis para empresas e pessoas que desejam crescer no mundo digital.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent via-slate-900/30 to-transparent">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl font-bold text-center mb-12 gradient-text animate-fadeInUp" style="animation-delay: 0s;">Nossos Valores</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="card-hover text-center animate-fadeInUp" style="animation-delay: 0s;">
+                        <div class="text-5xl mb-4">⭐</div>
+                        <h3 class="text-xl font-bold text-white mb-3">Qualidade</h3>
+                        <p class="text-slate-400">Entregamos apenas trabalho de qualidade excepcional</p>
+                    </div>
+
+                    <div class="card-hover text-center animate-fadeInUp" style="animation-delay: 0.1s;">
+                        <div class="text-5xl mb-4">💡</div>
+                        <h3 class="text-xl font-bold text-white mb-3">Inovação</h3>
+                        <p class="text-slate-400">Usamos as tecnologias mais modernas e inovadoras</p>
+                    </div>
+
+                    <div class="card-hover text-center animate-fadeInUp" style="animation-delay: 0.2s;">
+                        <div class="text-5xl mb-4">🎯</div>
+                        <h3 class="text-xl font-bold text-white mb-3">Dedicação</h3>
+                        <p class="text-slate-400">Comprometidos com o sucesso de seus projetos</p>
+                    </div>
+
+                    <div class="card-hover text-center animate-fadeInUp" style="animation-delay: 0.3s;">
+                        <div class="text-5xl mb-4">🤝</div>
+                        <h3 class="text-xl font-bold text-white mb-3">Suporte</h3>
+                        <p class="text-slate-400">Apoio contínuo e suporte técnico profissional</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl font-bold text-center mb-12 gradient-text animate-fadeInUp" style="animation-delay: 0s;">Nossa Equipa</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                    <div class="card-hover text-center animate-fadeInUp" style="animation-delay: 0s;">
+                        <div class="text-7xl mb-4">👨‍💻</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Dinis Costa</h3>
+                        <p class="text-orange-500 font-semibold mb-3">Designer & Developer</p>
+                        <p class="text-slate-400">Criador e designer principal da Stylfit PT</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-orange-500/10 to-cyan-500/10">
+            <div class="max-w-3xl mx-auto text-center animate-fadeInUp" style="animation-delay: 0s;">
+                <h2 class="text-4xl font-bold mb-6 text-white">Pronto para Começar?</h2>
+                <p class="text-lg text-slate-300 mb-8">Entre em contacto conosco e vamos transformar sua ideia em realidade digital.</p>
+                <a href="index.html#contact" class="btn-primary">Contacte-nos Agora</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950/80 border-t border-slate-800 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold gradient-text mb-4">Stylfit PT</h3>
+                    <p class="text-slate-400 text-sm">Transformando ideias em soluções digitais profissionais.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Menu</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="index.html" class="hover:text-orange-500 transition-colors">Home</a></li>
+                        <li><a href="about.html" class="hover:text-orange-500 transition-colors">Sobre Nós</a></li>
+                        <li><a href="index.html#contact" class="hover:text-orange-500 transition-colors">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Serviços</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li>Desenvolvimento Web</li>
+                        <li>Aplicações Mobile</li>
+                        <li>Design UI/UX</li>
+                        <li>Consultoria Técnica</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Contacto</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="mailto:stylfit.pt@gmail.com" class="hover:text-orange-500 transition-colors">stylfit.pt@gmail.com</a></li>
+                        <li>Portugal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-slate-500 text-sm">© 2024 Stylfit PT. Todos os direitos reservados.</p>
+                    <p class="text-slate-500 text-sm">Designed by <span class="font-semibold text-orange-500">Dinis Costa</span></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

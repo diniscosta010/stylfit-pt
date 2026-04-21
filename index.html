@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stylfit PT - Soluções digitais profissionais. Desenvolvimento web, programação e design para empresas e pessoas em Portugal.">
+    <meta name="keywords" content="desenvolvimento web, programação, design digital, websites, portugal">
+    <meta property="og:title" content="Stylfit PT - Soluções Digitais Profissionais">
+    <meta property="og:description" content="Transformamos ideias em soluções digitais de qualidade profissional.">
+    <title>Stylfit PT - Soluções Digitais Profissionais | Portugal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(15, 23, 42, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(249, 115, 22, 0.3);
+            }
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #f97316 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-primary {
+            @apply px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer;
+        }
+
+        .card-hover {
+            @apply bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 border border-slate-700 hover:border-orange-500 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/20 transform hover:-translate-y-2;
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .animate-slideInLeft {
+            animation: slideInLeft 0.6s ease-out forwards;
+        }
+
+        .animate-slideInRight {
+            animation: slideInRight 0.6s ease-out forwards;
+        }
+
+        .canvas-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 bg-gradient-to-b from-slate-900/95 to-slate-900/50 backdrop-blur-md border-b border-slate-700/50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="text-2xl font-bold gradient-text">Stylfit PT</a>
+                
+                <div id="desktop-menu" class="hidden md:flex gap-8 text-sm">
+                    <a href="#inicio" class="hover:text-orange-500 transition-colors duration-300">Início</a>
+                    <a href="#servicos" class="hover:text-orange-500 transition-colors duration-300">Serviços</a>
+                    <a href="#portfolio" class="hover:text-orange-500 transition-colors duration-300">Projectos</a>
+                    <a href="#planos" class="hover:text-orange-500 transition-colors duration-300">Planos</a>
+                    <a href="about.html" class="hover:text-orange-500 transition-colors duration-300">Sobre Nós</a>
+                    <a href="#contact" class="hover:text-orange-500 transition-colors duration-300">Contacto</a>
+                </div>
+
+                <button class="hidden md:block btn-primary text-sm">Começar Projeto</button>
+
+                <button id="menu-btn" class="md:hidden">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+
+            <div id="mobile-menu" class="md:hidden hidden pb-4 space-y-2 text-sm">
+                <a href="#inicio" class="block py-2 hover:text-orange-500 transition-colors">Início</a>
+                <a href="#servicos" class="block py-2 hover:text-orange-500 transition-colors">Serviços</a>
+                <a href="#portfolio" class="block py-2 hover:text-orange-500 transition-colors">Projectos</a>
+                <a href="#planos" class="block py-2 hover:text-orange-500 transition-colors">Planos</a>
+                <a href="about.html" class="block py-2 hover:text-orange-500 transition-colors">Sobre Nós</a>
+                <a href="#contact" class="block py-2 hover:text-orange-500 transition-colors">Contacto</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero 3D Section -->
+    <section id="inicio" class="relative w-full h-screen pt-20">
+        <div class="canvas-container" id="canvas-container"></div>
+        
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div class="text-center z-10">
+                <h1 class="text-5xl md:text-7xl font-bold mb-4 animate-fadeInUp gradient-text">Stylfit PT</h1>
+                <p class="text-xl md:text-2xl text-slate-300 mb-8 animate-fadeInUp" style="animation-delay: 0.2s;">Transformando Ideias em Soluções Digitais</p>
+                <button class="btn-primary animate-fadeInUp" style="animation-delay: 0.4s;">Comece Agora</button>
+            </div>
+        </div>
+
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-transparent to-slate-900/60 pointer-events-none"></div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="servicos" class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 animate-fadeInUp">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Nossos Serviços</h2>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto">Soluções completas de desenvolvimento e programação para empresas e pessoas</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card-hover animate-fadeInUp" style="opacity: 0; animation-delay: 0s;">
+                    <div class="text-5xl mb-4">💻</div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Desenvolvimento Web</h3>
+                    <p class="text-slate-400">Websites modernos e responsivos com as tecnologias mais recentes</p>
+                </div>
+
+                <div class="card-hover animate-fadeInUp" style="opacity: 0; animation-delay: 0.1s;">
+                    <div class="text-5xl mb-4">📱</div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Aplicações Mobile</h3>
+                    <p class="text-slate-400">Aplicações iOS e Android com performance excepcional</p>
+                </div>
+
+                <div class="card-hover animate-fadeInUp" style="opacity: 0; animation-delay: 0.2s;">
+                    <div class="text-5xl mb-4">🎨</div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Design UI/UX</h3>
+                    <p class="text-slate-400">Interfaces intuitivas e visualmente atrativas para sua marca</p>
+                </div>
+
+                <div class="card-hover animate-fadeInUp" style="opacity: 0; animation-delay: 0.3s;">
+                    <div class="text-5xl mb-4">⚙️</div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Otimização SEO</h3>
+                    <p class="text-slate-400">Seu website no topo dos resultados de busca</p>
+                </div>
+
+                <div class="card-hover animate-fadeInUp" style="opacity: 0; animation-delay: 0.4s;">
+                    <div class="text-5xl mb-4">🔧</div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Manutenção & Suporte</h3>
+                    <p class="text-slate-400">Suporte técnico contínuo para seu projeto</p>
+                </div>
+
+                <div class="card-hover animate-fadeInUp" style="opacity: 0; animation-delay: 0.5s;">
+                    <div class="text-5xl mb-4">🚀</div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Deploy & Hosting</h3>
+                    <p class="text-slate-400">Hospedagem segura e rápida para suas aplicações</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portefólio Section -->
+    <section id="portfolio" class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent via-slate-900/30 to-transparent">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 animate-fadeInUp">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Projectos Recentes</h2>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto">Conheça alguns dos projectos que desenvolvemos com sucesso</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card-hover group overflow-hidden animate-fadeInUp" style="animation-delay: 0s;">
+                    <div class="h-48 bg-gradient-to-br from-orange-500/20 to-cyan-500/20 flex items-center justify-center">
+                        <span class="text-6xl">🌐</span>
+                    </div>
+                    <h3 class="text-xl font-bold mt-4 mb-2 text-white">E-commerce Profissional</h3>
+                    <p class="text-slate-400 text-sm mb-3">Plataforma de venda online com integração de pagamentos</p>
+                    <p class="text-orange-500 text-sm font-semibold">2024 • Portugal</p>
+                </div>
+
+                <div class="card-hover group overflow-hidden animate-fadeInUp" style="animation-delay: 0.1s;">
+                    <div class="h-48 bg-gradient-to-br from-cyan-500/20 to-orange-500/20 flex items-center justify-center">
+                        <span class="text-6xl">📱</span>
+                    </div>
+                    <h3 class="text-xl font-bold mt-4 mb-2 text-white">App Móvel Customizada</h3>
+                    <p class="text-slate-400 text-sm mb-3">Aplicação iOS/Android para gestão de serviços</p>
+                    <p class="text-orange-500 text-sm font-semibold">2024 • Portugal</p>
+                </div>
+
+                <div class="card-hover group overflow-hidden animate-fadeInUp" style="animation-delay: 0.2s;">
+                    <div class="h-48 bg-gradient-to-br from-orange-500/20 to-cyan-500/20 flex items-center justify-center">
+                        <span class="text-6xl">💼</span>
+                    </div>
+                    <h3 class="text-xl font-bold mt-4 mb-2 text-white">Plataforma Enterprise</h3>
+                    <p class="text-slate-400 text-sm mb-3">Sistema de gestão para grandes empresas</p>
+                    <p class="text-orange-500 text-sm font-semibold">2024 • Portugal</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testemunhos Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 animate-fadeInUp">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">O que Dizem Sobre Nós</h2>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto">Testemunhos reais de clientes satisfeitos</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card-hover animate-fadeInUp" style="animation-delay: 0s;">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <p class="text-slate-300 mb-4 italic">"Excelente trabalho! Transformaram a nossa presença online completamente. Muito profissionais."</p>
+                    <p class="text-orange-500 font-semibold text-sm">João Silva • CEO, Empresa XYZ</p>
+                </div>
+
+                <div class="card-hover animate-fadeInUp" style="animation-delay: 0.1s;">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <p class="text-slate-300 mb-4 italic">"Muito atenciosos, prazos cumpridos e resultado de qualidade. Recomendo vivamente!"</p>
+                    <p class="text-orange-500 font-semibold text-sm">Maria Santos • Directora Criativa</p>
+                </div>
+
+                <div class="card-hover animate-fadeInUp" style="animation-delay: 0.2s;">
+                    <div class="flex items-center mb-4">
+                        <span class="text-3xl">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <p class="text-slate-300 mb-4 italic">"Suporte extraordinário e soluções inovadoras. Parceiros de confiança para o futuro."</p>
+                    <p class="text-orange-500 font-semibold text-sm">Pedro Oliveira • Empreendedor</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planos Section -->
+    <section id="planos" class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent via-slate-900/50 to-transparent">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 animate-fadeInUp">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Planos Personalizados</h2>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto">Escolha o plano ideal para o seu negócio</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Plano Básico -->
+                <div class="card-hover animate-fadeInUp" style="animation-delay: 0s;">
+                    <h3 class="text-2xl font-bold text-white mb-2">Início</h3>
+                    <p class="text-slate-400 text-sm mb-6">Para pequenos negócios</p>
+                    <div class="text-4xl font-bold gradient-text mb-6">99€<span class="text-lg">/mês</span></div>
+                    <ul class="space-y-3 mb-8 text-slate-300">
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> Website básico</li>
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> Até 5 páginas</li>
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> Design responsivo</li>
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> Email de suporte</li>
+                    </ul>
+                    <button class="w-full btn-primary">Começar Agora</button>
+                </div>
+
+                <!-- Plano Profissional -->
+                <div class="card-hover border-orange-500 relative animate-fadeInUp" style="animation-delay: 0.1s;">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-4 py-1 rounded-full text-sm font-semibold">POPULAR</div>
+                    <h3 class="text-2xl font-bold text-white mb-2 mt-3">Profissional</h3>
+                    <p class="text-slate-400 text-sm mb-6">Para empresas em crescimento</p>
+                    <div class="text-4xl font-bold gradient-text mb-6">299€<span class="text-lg">/mês</span></div>
+                    <ul class="space-y-3 mb-8 text-slate-300">
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> Website profissional</li>
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> Até 15 páginas</li>
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> Blog integrado</li>
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> Formulários avançados</li>
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> Suporte prioritário</li>
+                    </ul>
+                    <button class="w-full btn-primary">Começar Agora</button>
+                </div>
+
+                <!-- Plano Enterprise -->
+                <div class="card-hover animate-fadeInUp" style="animation-delay: 0.2s;">
+                    <h3 class="text-2xl font-bold text-white mb-2">Enterprise</h3>
+                    <p class="text-slate-400 text-sm mb-6">Para grandes empresas</p>
+                    <div class="text-4xl font-bold gradient-text mb-6">Customizado</div>
+                    <ul class="space-y-3 mb-8 text-slate-300">
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> Solução completa</li>
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> Páginas ilimitadas</li>
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> E-commerce</li>
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> Integrações API</li>
+                        <li class="flex items-center"><span class="text-orange-500 mr-3">✓</span> Suporte dedicado 24/7</li>
+                    </ul>
+                    <button class="w-full btn-primary">Contacte-nos</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-16 animate-fadeInUp">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Perguntas Frequentes</h2>
+                <p class="text-slate-400 text-lg">Respostas às suas dúvidas</p>
+            </div>
+
+            <div class="space-y-4">
+                <details class="card-hover cursor-pointer group animate-fadeInUp" style="animation-delay: 0s;">
+                    <summary class="text-lg font-semibold text-white flex justify-between items-center py-2">
+                        Qual é o tempo de entrega de um projecto?
+                        <span class="group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <p class="text-slate-400 mt-3 pt-3 border-t border-slate-700">Os prazos variam conforme a complexidade. Projectos simples levam 2-4 semanas, enquanto projectos mais complexos podem levar 8-12 semanas. Discutiremos os prazos específicos durante a consulta inicial.</p>
+                </details>
+
+                <details class="card-hover cursor-pointer group animate-fadeInUp" style="animation-delay: 0.1s;">
+                    <summary class="text-lg font-semibold text-white flex justify-between items-center py-2">
+                        Oferecem manutenção após conclusão?
+                        <span class="group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <p class="text-slate-400 mt-3 pt-3 border-t border-slate-700">Sim! Oferecemos pacotes de manutenção e suporte contínuo. Pode escolher entre suporte básico, profissional ou premium, conforme suas necessidades.</p>
+                </details>
+
+                <details class="card-hover cursor-pointer group animate-fadeInUp" style="animation-delay: 0.2s;">
+                    <summary class="text-lg font-semibold text-white flex justify-between items-center py-2">
+                        Qual é o investimento para um website profissional?
+                        <span class="group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <p class="text-slate-400 mt-3 pt-3 border-t border-slate-700">Temos planos a partir de 99€/mês para pequenos negócios, até soluções enterprise customizadas. O investimento depende da complexidade e funcionalidades desejadas.</p>
+                </details>
+
+                <details class="card-hover cursor-pointer group animate-fadeInUp" style="animation-delay: 0.3s;">
+                    <summary class="text-lg font-semibold text-white flex justify-between items-center py-2">
+                        Posso alterar o website após conclusão?
+                        <span class="group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <p class="text-slate-400 mt-3 pt-3 border-t border-slate-700">Claro! Todos os nossos websites são facilmente editáveis. Fornecemos treinamento e suporte para que possa fazer alterações ou contar com nosso suporte profissional.</p>
+                </details>
+
+                <details class="card-hover cursor-pointer group animate-fadeInUp" style="animation-delay: 0.4s;">
+                    <summary class="text-lg font-semibold text-white flex justify-between items-center py-2">
+                        Que tecnologias utilizam?
+                        <span class="group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <p class="text-slate-400 mt-3 pt-3 border-t border-slate-700">Utilizamos as tecnologias mais modernas: Next.js, React, Node.js, Python, etc. Escolhemos as melhores ferramentas para cada projecto, garantindo performance e escalabilidade.</p>
+                </details>
+
+                <details class="card-hover cursor-pointer group animate-fadeInUp" style="animation-delay: 0.5s;">
+                    <summary class="text-lg font-semibold text-white flex justify-between items-center py-2">
+                        Vocês oferecem suporte após o lançamento?
+                        <span class="group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <p class="text-slate-400 mt-3 pt-3 border-t border-slate-700">Absolutamente! Oferecemos suporte técnico contínuo, updates de segurança, backups regulares e atualizações de software. O suporte faz parte dos nossos serviços.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent via-slate-900/50 to-transparent">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-12 animate-fadeInUp">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Vamos Conversar?</h2>
+                <p class="text-slate-400 text-lg">Contacte-nos para discutir seu projecto</p>
+            </div>
+
+            <form id="contact-form" class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 border border-slate-700 animate-fadeInUp space-y-6">
+                <div>
+                    <label for="name" class="block text-sm font-medium mb-2">Nome Completo</label>
+                    <input type="text" id="name" name="name" required class="w-full px-4 py-3 rounded-lg bg-slate-700/50 border border-slate-600 focus:border-orange-500 focus:outline-none transition-colors" placeholder="Seu nome">
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium mb-2">Email</label>
+                    <input type="email" id="email" name="email" required class="w-full px-4 py-3 rounded-lg bg-slate-700/50 border border-slate-600 focus:border-orange-500 focus:outline-none transition-colors" placeholder="seu@email.com">
+                </div>
+
+                <div>
+                    <label for="message" class="block text-sm font-medium mb-2">Mensagem</label>
+                    <textarea id="message" name="message" required rows="5" class="w-full px-4 py-3 rounded-lg bg-slate-700/50 border border-slate-600 focus:border-orange-500 focus:outline-none transition-colors resize-none" placeholder="Descreva seu projecto..."></textarea>
+                </div>
+
+                <button type="submit" class="w-full btn-primary">Enviar Mensagem</button>
+            </form>
+
+            <div class="text-center mt-8 animate-fadeInUp" style="animation-delay: 0.2s;">
+                <p class="text-slate-400 mb-3">Ou contacte-nos directamente:</p>
+                <a href="mailto:stylfit.pt@gmail.com" class="text-xl font-semibold text-orange-500 hover:text-orange-400 transition-colors">stylfit.pt@gmail.com</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950/80 border-t border-slate-800 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold gradient-text mb-4">Stylfit PT</h3>
+                    <p class="text-slate-400 text-sm">Transformando ideias em soluções digitais profissionais.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Menu</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#inicio" class="hover:text-orange-500 transition-colors">Início</a></li>
+                        <li><a href="#servicos" class="hover:text-orange-500 transition-colors">Serviços</a></li>
+                        <li><a href="#portfolio" class="hover:text-orange-500 transition-colors">Projectos</a></li>
+                        <li><a href="about.html" class="hover:text-orange-500 transition-colors">Sobre Nós</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Serviços</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li>Desenvolvimento Web</li>
+                        <li>Aplicações Mobile</li>
+                        <li>Design UI/UX</li>
+                        <li>Consultoria Técnica</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Contacto</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="mailto:stylfit.pt@gmail.com" class="hover:text-orange-500 transition-colors">stylfit.pt@gmail.com</a></li>
+                        <li>Portugal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-slate-500 text-sm">© 2024 Stylfit PT. Todos os direitos reservados.</p>
+                    <p class="text-slate-500 text-sm">Designed by <span class="font-semibold text-orange-500">Dinis Costa</span></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Three.js Scene - Minimalista e Profissional
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000, 0);
+        container.appendChild(renderer.domElement);
+
+        camera.position.z = 4;
+
+        // Gráfico/Padrão minimalista profissional
+        const geometryMain = new THREE.IcosahedronGeometry(1.2, 4);
+        const materialMain = new THREE.MeshPhongMaterial({ 
+            color: 0xf97316,
+            emissive: 0xf97316,
+            emissiveIntensity: 0.2,
+            wireframe: false
+        });
+        const meshMain = new THREE.Mesh(geometryMain, materialMain);
+        scene.add(meshMain);
+
+        // Orbitais de apoio - linhas finas
+        const geometry1 = new THREE.BufferGeometry();
+        const points1 = [];
+        for (let i = 0; i <= 64; i++) {
+            const angle = (i / 64) * Math.PI * 2;
+            points1.push(
+                Math.cos(angle) * 2,
+                Math.sin(angle) * 0.3,
+                0
+            );
+        }
+        geometry1.setAttribute('position', new THREE.BufferAttribute(new Float32Array(points1), 3));
+        const line1 = new THREE.Line(geometry1, new THREE.LineBasicMaterial({ color: 0x06b6d4, linewidth: 1, transparent: true, opacity: 0.3 }));
+        scene.add(line1);
+
+        // Iluminação sofisticada
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0xffffff, 0.8);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+
+        const pointLight2 = new THREE.PointLight(0x06b6d4, 0.3);
+        pointLight2.position.set(-5, -5, -5);
+        scene.add(pointLight2);
+
+        // Animação suave e madura
+        function animate() {
+            requestAnimationFrame(animate);
+            meshMain.rotation.x += 0.0008;
+            meshMain.rotation.y += 0.0012;
+            line1.rotation.z += 0.0005;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Contact form
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            const mailtoLink = `mailto:stylfit.pt@gmail.com?subject=Contacto de ${name}&body=${encodeURIComponent(
+                `Nome: ${name}\nEmail: ${email}\n\nMensagem:\n${message}`
+            )}`;
+
+            window.location.href = mailtoLink;
+        });
+    </script>
+</body>
+</html>
